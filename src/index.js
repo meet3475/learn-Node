@@ -1,3 +1,20 @@
+
+const express = require("express");
+
+const app = express();
+
+const routes = require("./routes/v1/index")
+
+app.use("/api/v1", routes)
+
+app.listen(3000, () => {
+    console.log("Server Starte at port 3000.");
+})
+
+
+
+
+
 // const rect = require("./rectangle")
 
 // rect(100, 20, (err, rectObj) => {
@@ -28,12 +45,12 @@
 
 // solveRect(10, 20)
 
-const salary = require("./salary")
+// const salary = require("./salary")
 
-salary(25000, (err, bonus) => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log(bonus);
-    }
-})
+// salary(25000, (err, bonus) => {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log(bonus);
+//     }
+// })

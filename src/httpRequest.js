@@ -109,6 +109,51 @@ const server = http.createServer((req, res) => {
             res.write(JSON.stringify({ message: "invalid id" }))
             res.end()
         }
+    } else if (method === 'put' && path === '/institute') {
+        let body = '';
+
+        req.on("data", (chunk) => {
+            body += chunk;
+
+        })
+
+        try {
+            fs.readFile(dataPath, "utf-8", (err, data) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' })
+                    res.end(JSON.stringify({ error: err.message }))
+                }
+
+                const id = url.parse(req.url, true).query.id
+
+                if (!id) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' })
+                    res.end(JSON.stringify({ error: "Invalid Request." }))
+                }
+
+                const existData = JSON.parse(data)
+                const index =  existData.findIndex((v) => v.id == id)
+                existData[index] = JSON.parse(body)
+                console.log(existData);
+
+                if (index === -1) {
+                    res.writeHead(404, { 'Content-Type': 'application/json' })
+                    res.end(JSON.stringify({ error: "Data not Found" }))
+                }
+
+                fs.writeFile(dataPath, JSON.stringify(existData), (err) => {
+                    if (err) {
+                        res.writeHead(500, { 'Content-Type': 'application/json' })
+                        res.end(JSON.stringify({ error: err.message }))
+                    }
+    
+                    res.end(JSON.stringify({ message: "data update sucessfully." }))
+                })
+            })
+        } catch (error) {
+            res.writeHead(500, { 'Content-Type': 'application/json' })
+            res.end(JSON.stringify({ error:error.message }))
+        }
     }
 })
 
