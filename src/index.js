@@ -12,9 +12,6 @@ app.listen(3000, () => {
 })
 
 
-
-
-
 // const rect = require("./rectangle")
 
 // rect(100, 20, (err, rectObj) => {
